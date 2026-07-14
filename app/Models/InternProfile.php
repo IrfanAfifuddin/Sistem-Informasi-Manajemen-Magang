@@ -16,6 +16,9 @@ class InternProfile extends Model
         'start_date',
         'end_date',
         'mentor_id',
+        'status',
+        'application_letter_path',
+        'certificate_path',
     ];
 
     protected $casts = [

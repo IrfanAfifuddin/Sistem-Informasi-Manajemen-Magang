@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->dateTime('due_date');
-            $table->enum('status', ['pending', 'submitted', 'graded'])->default('pending');
+            $table->enum('status', ['pending', 'submitted', 'graded', 'expired'])->default('pending');
             $table->timestamps();
         });
     }

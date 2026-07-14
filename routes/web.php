@@ -37,7 +37,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
     Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
     Route::post('/interns', [AdminController::class, 'storeIntern'])->name('interns.store');
-    Route::put('/interns/{user}', [AdminController::class, 'updateIntern'])->name('interns.update');
+    Route::match(['PUT', 'POST'], '/interns/{user}', [AdminController::class, 'updateIntern'])->name('interns.update');
     Route::delete('/users/{user}', [AdminController::class, 'destroy'])->name('users.destroy');
 });
 
@@ -45,21 +45,24 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 Route::middleware(['auth', 'role:mentor'])->prefix('mentor')->name('mentor.')->group(function () {
     Route::get('/dashboard', [MentorController::class, 'index'])->name('dashboard');
     Route::post('/tasks', [MentorController::class, 'storeTask'])->name('tasks.store');
-    Route::put('/tasks/{task}', [MentorController::class, 'updateTask'])->name('tasks.update');
+    Route::match(['PUT', 'POST'], '/tasks/{task}', [MentorController::class, 'updateTask'])->name('tasks.update');
     Route::delete('/tasks/{task}', [MentorController::class, 'destroyTask'])->name('tasks.destroy');
     Route::post('/submissions/{submission}/grade', [MentorController::class, 'gradeSubmission'])->name('submissions.grade');
+    Route::post('/interns/{user}/certificate', [MentorController::class, 'uploadCertificate'])->name('interns.certificate');
 });
 
 // Intern-only Routes
 Route::middleware(['auth', 'role:intern'])->prefix('intern')->name('intern.')->group(function () {
     Route::get('/dashboard', [InternController::class, 'index'])->name('dashboard');
     Route::post('/tasks/{task}/submit', [InternController::class, 'submitTask'])->name('tasks.submit');
+    Route::post('/upload-letter', [InternController::class, 'uploadLetter'])->name('upload_letter');
 });
 
 // Shared Admin & Mentor Reports Routes
 Route::middleware(['auth', 'role:admin,mentor'])->prefix('reports')->name('reports.')->group(function () {
     Route::get('/', [ReportController::class, 'index'])->name('index');
     Route::get('/export-pdf', [ReportController::class, 'exportPdf'])->name('pdf');
+    Route::get('/export-excel', [ReportController::class, 'exportExcel'])->name('excel');
 });
 
 require __DIR__.'/auth.php';

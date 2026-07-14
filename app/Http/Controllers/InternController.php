@@ -15,6 +15,8 @@ class InternController extends Controller
      */
     public function index()
     {
+        \App\Models\Submission::autoFailExpiredTasks();
+
         $intern = Auth::user();
         
         // Load profile and mentor details
@@ -108,5 +110,37 @@ class InternController extends Controller
         ]);
 
         return redirect()->route('intern.dashboard')->with('success', 'Tugas berhasil dikumpulkan!');
+    }
+
+    /**
+     * Upload application letter.
+     */
+    public function uploadLetter(Request $request)
+    {
+        $request->validate([
+            'letter' => ['required', 'file', 'mimes:pdf,jpg,png', 'max:2048'],
+        ]);
+
+        $intern = Auth::user();
+        $profile = $intern->internProfile;
+
+        if (!$profile) {
+            return back()->withErrors(['letter' => 'Profil magang tidak ditemukan.']);
+        }
+
+        // Store file inside local public disk in documents/letters directory
+        $path = $request->file('letter')->store('documents/letters', 'public');
+
+        // Delete old file if exists
+        if ($profile->application_letter_path) {
+            Storage::disk('public')->delete($profile->application_letter_path);
+        }
+
+        // Update profile in DB
+        $profile->update([
+            'application_letter_path' => $path,
+        ]);
+
+        return redirect()->route('intern.dashboard')->with('success', 'Surat Permohonan berhasil diunggah!');
     }
 }

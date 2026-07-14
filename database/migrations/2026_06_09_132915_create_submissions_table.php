@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('link_url')->nullable();
             $table->integer('score')->nullable();
             $table->text('feedback')->nullable();
-            $table->enum('status', ['pending', 'submitted', 'graded'])->default('submitted');
+            $table->enum('status', ['pending', 'submitted', 'graded', 'expired'])->default('submitted');
             $table->timestamps();
         });
     }

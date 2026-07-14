@@ -14,6 +14,7 @@ class Task extends Model
         'intern_id',
         'title',
         'description',
+        'attachment_path',
         'due_date',
         'status',
     ];

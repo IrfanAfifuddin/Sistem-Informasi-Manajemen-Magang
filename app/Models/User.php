@@ -14,6 +14,24 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
+     * The booted method of the model.
+     */
+    protected static function booted()
+    {
+        static::deleting(function ($user) {
+            if ($user->id == 1) {
+                abort(403, 'Akses Ditolak: Akun Master Admin tidak dapat dihapus dari sistem.');
+            }
+        });
+
+        static::updating(function ($user) {
+            if ($user->id == 1 && auth()->check() && auth()->id() !== 1) {
+                abort(403, 'Akses Ditolak: Hanya Master Admin itu sendiri yang boleh mengubah profilnya.');
+            }
+        });
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>

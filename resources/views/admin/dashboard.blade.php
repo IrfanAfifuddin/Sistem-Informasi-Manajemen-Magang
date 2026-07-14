@@ -1,17 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Admin Dashboard - Intern Management') }}
-            </h2>
-            <a href="{{ route('reports.index') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors duration-150">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                Lihat Rekap Laporan
-            </a>
-        </div>
-    </x-slot>
-
-    <div class="py-12" x-data="{ 
+    <div class="py-4" x-data="{ 
         activeTab: 'interns', 
         openCreateIntern: false, 
         openCreateUser: false,
@@ -44,240 +32,284 @@
             this.openEditUser = true;
         }
     }">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="container-fluid px-4">
 
             <!-- Alert Toast -->
             @if (session('success'))
-                <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 border border-green-200 dark:border-green-800" role="alert">
-                    <span class="font-medium">Sukses!</span> {{ session('success') }}
+                <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert" style="border-radius: 8px; background-color: rgba(26, 174, 57, 0.1); color: var(--colors-accent-green);">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="mdi mdi-checkbox-marked-circle-outline fs-5"></i>
+                        <div><strong>Sukses!</strong> {{ session('success') }}</div>
+                    </div>
                 </div>
             @endif
 
             <!-- Quick Stats -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="row mb-4">
                 <!-- Card Interns -->
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-xl p-6 border border-gray-100 dark:border-gray-700 flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Anak Magang (Interns)</p>
-                        <p class="text-3xl font-bold text-gray-900 dark:text-white mt-1">{{ $internsCount }}</p>
-                    </div>
-                    <div class="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                <div class="col-md-4 grid-margin stretch-card">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body">
+                            <h4 class="card-title text-dark">Total Anak Magang (Interns)</h4>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h2 class="text-dark font-weight-bold mb-0">{{ $internsCount }}</h2>
+                                <div class="p-3 bg-light rounded-circle text-primary">
+                                    <i class="mdi mdi-account-multiple fs-2"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Card Mentors -->
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-xl p-6 border border-gray-100 dark:border-gray-700 flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Mentor</p>
-                        <p class="text-3xl font-bold text-gray-900 dark:text-white mt-1">{{ $mentorsCount }}</p>
-                    </div>
-                    <div class="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg text-purple-600 dark:text-purple-400">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                <div class="col-md-4 grid-margin stretch-card">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body">
+                            <h4 class="card-title text-dark">Total Mentor</h4>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h2 class="text-dark font-weight-bold mb-0">{{ $mentorsCount }}</h2>
+                                <div class="p-3 bg-light rounded-circle text-success">
+                                    <i class="mdi mdi-account-tie fs-2"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Card Admins -->
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-xl p-6 border border-gray-100 dark:border-gray-700 flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Administrator</p>
-                        <p class="text-3xl font-bold text-gray-900 dark:text-white mt-1">{{ $adminsCount }}</p>
-                    </div>
-                    <div class="p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg text-indigo-600 dark:text-indigo-400">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div class="col-md-4 grid-margin stretch-card">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body">
+                            <h4 class="card-title text-dark">Total Administrator</h4>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h2 class="text-dark font-weight-bold mb-0">{{ $adminsCount }}</h2>
+                                <div class="p-3 bg-light rounded-circle text-info">
+                                    <i class="mdi mdi-shield-account fs-2"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Tabs Navigation -->
-            <div class="flex border-b border-gray-200 dark:border-gray-700">
-                <button @click="activeTab = 'interns'" :class="activeTab === 'interns' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'" class="py-4 px-6 border-b-2 font-medium text-sm transition-colors duration-150">
-                    Daftar Anak Magang (Interns)
-                </button>
-                <button @click="activeTab = 'mentors'" :class="activeTab === 'mentors' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'" class="py-4 px-6 border-b-2 font-medium text-sm transition-colors duration-150">
-                    Daftar Mentor
-                </button>
-                <button @click="activeTab = 'admins'" :class="activeTab === 'admins' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'" class="py-4 px-6 border-b-2 font-medium text-sm transition-colors duration-150">
-                    Daftar Admin
-                </button>
-            </div>
+            <ul class="nav nav-tabs mb-4" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" :class="{ 'active': activeTab === 'interns' }" @click="activeTab = 'interns'" type="button">
+                        Daftar Anak Magang (Interns)
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" :class="{ 'active': activeTab === 'mentors' }" @click="activeTab = 'mentors'" type="button">
+                        Daftar Mentor
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" :class="{ 'active': activeTab === 'admins' }" @click="activeTab = 'admins'" type="button">
+                        Daftar Admin
+                    </button>
+                </li>
+            </ul>
 
             <!-- Interns Table Panel -->
-            <div x-show="activeTab === 'interns'" class="bg-white dark:bg-gray-800 shadow-sm rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
-                <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Anak Magang</h3>
-                    <button @click="openCreateIntern = true" class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold uppercase tracking-widest rounded-lg shadow-sm transition-colors duration-150">
-                        Tambah Anak Magang
-                    </button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-750">
-                        <thead class="bg-gray-50 dark:bg-gray-900/50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">NIM / Nama</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Universitas / Jurusan</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Masa Magang</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Mentor</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">First Login?</th>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                            @forelse($users->where('role', 'intern') as $user)
+            <div x-show="activeTab === 'interns'" class="card shadow-sm border-0 mb-4" style="display: none;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="card-title text-dark mb-0">Anak Magang</h4>
+                        <button @click="openCreateIntern = true" class="btn btn-primary btn-sm text-white">
+                            Tambah Anak Magang
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ $user->name }}</div>
-                                        <div class="text-xs text-gray-500 dark:text-gray-400">NIM: {{ $user->username }}</div>
-                                        <div class="text-xs text-gray-400">{{ $user->email ?? 'No Email' }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900 dark:text-white">{{ $user->internProfile->university ?? '-' }}</div>
-                                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ $user->internProfile->major ?? '-' }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                        @if($user->internProfile)
-                                            {{ \Carbon\Carbon::parse($user->internProfile->start_date)->format('d M Y') }} - 
-                                            {{ \Carbon\Carbon::parse($user->internProfile->end_date)->format('d M Y') }}
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                                        @if($user->internProfile && $user->internProfile->mentor)
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400">
-                                                {{ $user->internProfile->mentor->name }}
-                                            </span>
-                                        @else
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
-                                                Belum Ditentukan
-                                            </span>
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                        @if($user->is_first_login)
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">YA</span>
-                                        @else
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">TIDAK</span>
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                        <button @click="openEditInternModal({{ json_encode($user) }})" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900">Edit</button>
-                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 dark:text-red-400 hover:text-red-900">Delete</button>
-                                        </form>
-                                    </td>
+                                    <th>NIM / Nama</th>
+                                    <th>Universitas / Jurusan</th>
+                                    <th>Masa Magang</th>
+                                    <th>Mentor</th>
+                                    <th>First Login?</th>
+                                    <th>DOKUMEN</th>
+                                    <th>Aksi</th>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">Belum ada data anak magang.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @forelse($users->where('role', 'intern') as $user)
+                                    <tr>
+                                        <td>
+                                            <div class="fw-bold text-dark mb-1">{{ $user->name }}</div>
+                                            <small class="text-muted d-block mb-1">NIM: {{ $user->username }}</small>
+                                            <small class="text-muted d-block">{{ $user->email ?? 'No Email' }}</small>
+                                        </td>
+                                        <td>
+                                            <div class="text-dark mb-1">{{ $user->internProfile->university ?? '-' }}</div>
+                                            <small class="text-muted d-block">{{ $user->internProfile->major ?? '-' }}</small>
+                                        </td>
+                                        <td>
+                                            @if($user->internProfile)
+                                                {{ \Carbon\Carbon::parse($user->internProfile->start_date)->format('d M Y') }} - 
+                                                {{ \Carbon\Carbon::parse($user->internProfile->end_date)->format('d M Y') }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($user->internProfile && $user->internProfile->mentor)
+                                                <span class="badge bg-purple text-purple-800">
+                                                    {{ $user->internProfile->mentor->name }}
+                                                </span>
+                                            @else
+                                                <span class="badge bg-danger text-white">
+                                                    Belum Ditentukan
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($user->is_first_login)
+                                                <span class="badge bg-warning text-dark">YA</span>
+                                            @else
+                                                <span class="badge bg-success text-white">TIDAK</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                @if($user->internProfile && $user->internProfile->application_letter_path)
+                                                    <a href="{{ asset('storage/' . $user->internProfile->application_letter_path) }}" target="_blank" class="btn btn-primary btn-xs text-white text-decoration-none">
+                                                        Lihat Surat
+                                                    </a>
+                                                @endif
+                                                @if($user->internProfile && $user->internProfile->certificate_path)
+                                                    <a href="{{ asset('storage/' . $user->internProfile->certificate_path) }}" target="_blank" class="btn btn-success btn-xs text-white text-decoration-none">
+                                                        Lihat Sertifikat
+                                                    </a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <button type="button" @click="openEditInternModal({{ json_encode($user) }})" class="btn btn-sm btn-primary text-white">Edit</button>
+                                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-danger text-white">Delete</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="7" class="text-center py-4">Belum ada data anak magang.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
             <!-- Mentors Table Panel -->
-            <div x-show="activeTab === 'mentors'" class="bg-white dark:bg-gray-800 shadow-sm rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
-                <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Mentor</h3>
-                    <button @click="openCreateUser = true; editUserData.role = 'mentor'" class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold uppercase tracking-widest rounded-lg shadow-sm transition-colors duration-150">
-                        Tambah Mentor
-                    </button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-750">
-                        <thead class="bg-gray-50 dark:bg-gray-900/50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nama / Username</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Jumlah Anak Magang</th>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                            @forelse($users->where('role', 'mentor') as $user)
+            <div x-show="activeTab === 'mentors'" class="card shadow-sm border-0 mb-4" style="display: none;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="card-title text-dark mb-0">Mentor</h4>
+                        <button @click="openCreateUser = true; editUserData.role = 'mentor'" class="btn btn-primary btn-sm text-white">
+                            Tambah Mentor
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ $user->name }}</div>
-                                        <div class="text-xs text-gray-500 dark:text-gray-400">Username: {{ $user->username }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                        {{ $user->email }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                                        <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-indigo-800 bg-indigo-100 rounded-full dark:bg-indigo-900/30 dark:text-indigo-400">
-                                            {{ $user->internProfilesForMentor->count() }} Interns
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                        <button @click="openEditUserModal({{ json_encode($user) }})" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900">Edit</button>
-                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus mentor ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 dark:text-red-400 hover:text-red-900">Delete</button>
-                                        </form>
-                                    </td>
+                                    <th>Nama / Username</th>
+                                    <th>Email</th>
+                                    <th>Jumlah Anak Magang</th>
+                                    <th>Aksi</th>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">Belum ada data mentor.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @forelse($users->where('role', 'mentor') as $user)
+                                    <tr>
+                                        <td>
+                                            <div class="fw-bold text-dark mb-1">{{ $user->name }}</div>
+                                            <small class="text-muted d-block">Username: {{ $user->username }}</small>
+                                        </td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>
+                                            <span class="badge bg-indigo text-indigo-800">
+                                                {{ $user->internProfilesForMentor->count() }} Interns
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <button type="button" @click="openEditUserModal({{ json_encode($user) }})" class="btn btn-sm btn-primary text-white">Edit</button>
+                                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus mentor ini?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-danger text-white">Delete</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center py-4">Belum ada data mentor.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
             <!-- Admins Table Panel -->
-            <div x-show="activeTab === 'admins'" class="bg-white dark:bg-gray-800 shadow-sm rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
-                <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Administrator</h3>
-                    <button @click="openCreateUser = true; editUserData.role = 'admin'" class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold uppercase tracking-widest rounded-lg shadow-sm transition-colors duration-150">
-                        Tambah Admin
-                    </button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-750">
-                        <thead class="bg-gray-50 dark:bg-gray-900/50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nama / Username</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</th>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                            @forelse($users->where('role', 'admin') as $user)
+            <div x-show="activeTab === 'admins'" class="card shadow-sm border-0 mb-4" style="display: none;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="card-title text-dark mb-0">Administrator</h4>
+                        <button @click="openCreateUser = true; editUserData.role = 'admin'" class="btn btn-primary btn-sm text-white">
+                            Tambah Admin
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ $user->name }}</div>
-                                        <div class="text-xs text-gray-500 dark:text-gray-400">Username: {{ $user->username }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                        {{ $user->email }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                        @if($user->id !== auth()->id())
-                                            <button @click="openEditUserModal({{ json_encode($user) }})" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900">Edit</button>
-                                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus admin ini?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="text-red-600 dark:text-red-400 hover:text-red-900">Delete</button>
-                                            </form>
-                                        @else
-                                            <span class="text-xs text-gray-400 italic">Akun Anda</span>
-                                        @endif
-                                    </td>
+                                    <th>Nama / Username</th>
+                                    <th>Email</th>
+                                    <th>Aksi</th>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">Belum ada data admin.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @forelse($users->where('role', 'admin') as $user)
+                                    <tr>
+                                        <td>
+                                            <div class="fw-bold text-dark mb-1">{{ $user->name }}</div>
+                                            <small class="text-muted d-block">Username: {{ $user->username }}</small>
+                                        </td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>
+                                            @if($user->id !== auth()->id())
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <button type="button" @click="openEditUserModal({{ json_encode($user) }})" class="btn btn-sm btn-primary text-white">Edit</button>
+                                                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus admin ini?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-danger text-white">Delete</button>
+                                                    </form>
+                                                </div>
+                                            @else
+                                                <small class="text-muted italic">Akun Anda</small>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="3" class="text-center py-4">Belum ada data admin.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 

@@ -5,9 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use App\Exports\InternReportExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
+    /**
+     * Export the recap report to Excel.
+     */
+    public function exportExcel()
+    {
+        return Excel::download(new InternReportExport, 'Laporan_Magang.xlsx');
+    }
+
     /**
      * Display the report / recap page for Admins and Mentors.
      */
@@ -36,6 +46,8 @@ class ReportController extends Controller
      */
     protected function getInternsReportData()
     {
+        \App\Models\Submission::autoFailExpiredTasks();
+
         return User::where('role', 'intern')
             ->with(['internProfile.mentor', 'submissions' => function ($query) {
                 $query->where('status', 'graded')->whereNotNull('score');

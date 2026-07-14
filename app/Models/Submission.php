@@ -34,4 +34,27 @@ class Submission extends Model
     {
         return $this->belongsTo(User::class, 'intern_id');
     }
+
+    /**
+     * Auto-fail submissions that are still pending after due_date.
+     */
+    public static function autoFailExpiredTasks(): void
+    {
+        $expiredSubmissions = self::where('status', 'pending')
+            ->whereHas('task', function ($query) {
+                $query->where('due_date', '<', now());
+            })
+            ->get();
+
+        foreach ($expiredSubmissions as $submission) {
+            $submission->update([
+                'status' => 'expired',
+                'score' => 0,
+            ]);
+
+            $submission->task->update([
+                'status' => 'graded'
+            ]);
+        }
+    }
 }
