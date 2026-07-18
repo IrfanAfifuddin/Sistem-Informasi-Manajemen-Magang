@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [
             \App\Http\Middleware\FirstLoginMiddleware::class,
+            \App\Http\Middleware\ForcePasswordChange::class,
         ]);
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,

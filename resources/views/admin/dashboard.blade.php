@@ -48,14 +48,14 @@
             <div class="row mb-4">
                 <!-- Card Interns -->
                 <div class="col-md-4 grid-margin stretch-card">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body">
-                            <h4 class="card-title text-dark">Total Anak Magang (Interns)</h4>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h2 class="text-dark font-weight-bold mb-0">{{ $internsCount }}</h2>
-                                <div class="p-3 bg-light rounded-circle text-primary">
-                                    <i class="mdi mdi-account-multiple fs-2"></i>
-                                </div>
+                    <div class="card notion-stats-card sky w-100">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="p-2 rounded fs-3" style="background-color: rgba(98, 174, 240, 0.1) !important; color: #0075de !important;">
+                                <i class="mdi mdi-account-multiple"></i>
+                            </div>
+                            <div>
+                                <div class="stats-label">Total Anak Magang (Interns)</div>
+                                <div class="stats-value">{{ $internsCount }}</div>
                             </div>
                         </div>
                     </div>
@@ -63,14 +63,14 @@
 
                 <!-- Card Mentors -->
                 <div class="col-md-4 grid-margin stretch-card">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body">
-                            <h4 class="card-title text-dark">Total Mentor</h4>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h2 class="text-dark font-weight-bold mb-0">{{ $mentorsCount }}</h2>
-                                <div class="p-3 bg-light rounded-circle text-success">
-                                    <i class="mdi mdi-account-tie fs-2"></i>
-                                </div>
+                    <div class="card notion-stats-card purple w-100">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="p-2 rounded fs-3" style="background-color: rgba(214, 182, 246, 0.15) !important; color: #903df5 !important;">
+                                <i class="mdi mdi-account-tie"></i>
+                            </div>
+                            <div>
+                                <div class="stats-label">Total Mentor</div>
+                                <div class="stats-value">{{ $mentorsCount }}</div>
                             </div>
                         </div>
                     </div>
@@ -78,14 +78,14 @@
 
                 <!-- Card Admins -->
                 <div class="col-md-4 grid-margin stretch-card">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body">
-                            <h4 class="card-title text-dark">Total Administrator</h4>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h2 class="text-dark font-weight-bold mb-0">{{ $adminsCount }}</h2>
-                                <div class="p-3 bg-light rounded-circle text-info">
-                                    <i class="mdi mdi-shield-account fs-2"></i>
-                                </div>
+                    <div class="card notion-stats-card teal w-100">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="p-2 rounded fs-3" style="background-color: rgba(42, 157, 153, 0.1) !important; color: var(--colors-accent-teal) !important;">
+                                <i class="mdi mdi-shield-account"></i>
+                            </div>
+                            <div>
+                                <div class="stats-label">Total Administrator</div>
+                                <div class="stats-value">{{ $adminsCount }}</div>
                             </div>
                         </div>
                     </div>
@@ -112,11 +112,11 @@
             </ul>
 
             <!-- Interns Table Panel -->
-            <div x-show="activeTab === 'interns'" class="card shadow-sm border-0 mb-4" style="display: none;">
+            <div x-show="activeTab === 'interns'" class="card notion-card mb-4" style="display: none;">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="card-title text-dark mb-0">Anak Magang</h4>
-                        <button @click="openCreateIntern = true" class="btn btn-primary btn-sm text-white">
+                        <h4 class="card-title text-dark mb-0 fw-bold notion-headline">Anak Magang</h4>
+                        <button @click="openCreateIntern = true" class="btn-notion-primary btn-sm">
                             Tambah Anak Magang
                         </button>
                     </div>
@@ -155,50 +155,50 @@
                                         </td>
                                         <td>
                                             @if($user->internProfile && $user->internProfile->mentor)
-                                                <span class="badge bg-purple text-purple-800">
+                                                <span class="notion-sticker-badge sticker-purple">
                                                     {{ $user->internProfile->mentor->name }}
                                                 </span>
                                             @else
-                                                <span class="badge bg-danger text-white">
+                                                <span class="notion-sticker-badge sticker-pink">
                                                     Belum Ditentukan
                                                 </span>
                                             @endif
                                         </td>
                                         <td>
                                             @if($user->is_first_login)
-                                                <span class="badge bg-warning text-dark">YA</span>
+                                                <span class="notion-sticker-badge sticker-orange">YA</span>
                                             @else
-                                                <span class="badge bg-success text-white">TIDAK</span>
+                                                <span class="notion-sticker-badge sticker-green">TIDAK</span>
                                             @endif
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
                                                 @if($user->internProfile && $user->internProfile->application_letter_path)
-                                                    <a href="{{ asset('storage/' . $user->internProfile->application_letter_path) }}" target="_blank" class="btn btn-primary btn-xs text-white text-decoration-none">
+                                                    <button type="button" data-file-url="{{ asset('storage/' . $user->internProfile->application_letter_path) }}" class="btn-notion-utility btn-xs btn-view-doc">
                                                         Lihat Surat
-                                                    </a>
+                                                    </button>
                                                 @endif
                                                 @if($user->internProfile && $user->internProfile->certificate_path)
-                                                    <a href="{{ asset('storage/' . $user->internProfile->certificate_path) }}" target="_blank" class="btn btn-success btn-xs text-white text-decoration-none">
+                                                    <button type="button" data-file-url="{{ asset('storage/' . $user->internProfile->certificate_path) }}" class="btn-notion-utility btn-xs btn-view-doc">
                                                         Lihat Sertifikat
-                                                    </a>
+                                                    </button>
                                                 @endif
                                             </div>
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
-                                                <button type="button" @click="openEditInternModal({{ json_encode($user) }})" class="btn btn-sm btn-primary text-white">Edit</button>
+                                                <button type="button" @click="openEditInternModal({{ json_encode($user) }})" class="btn-notion-utility btn-xs">Edit</button>
                                                 <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger text-white">Delete</button>
+                                                    <button type="submit" class="btn-notion-danger btn-xs">Hapus</button>
                                                 </form>
                                             </div>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="text-center py-4">Belum ada data anak magang.</td>
+                                        <td colspan="7" class="text-center py-4 text-muted small">Belum ada data anak magang.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -208,11 +208,11 @@
             </div>
 
             <!-- Mentors Table Panel -->
-            <div x-show="activeTab === 'mentors'" class="card shadow-sm border-0 mb-4" style="display: none;">
+            <div x-show="activeTab === 'mentors'" class="card notion-card mb-4" style="display: none;">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="card-title text-dark mb-0">Mentor</h4>
-                        <button @click="openCreateUser = true; editUserData.role = 'mentor'" class="btn btn-primary btn-sm text-white">
+                        <h4 class="card-title text-dark mb-0 fw-bold notion-headline">Mentor</h4>
+                        <button @click="openCreateUser = true; editUserData.role = 'mentor'" class="btn-notion-primary btn-sm">
                             Tambah Mentor
                         </button>
                     </div>
@@ -235,24 +235,24 @@
                                         </td>
                                         <td>{{ $user->email }}</td>
                                         <td>
-                                            <span class="badge bg-indigo text-indigo-800">
+                                            <span class="notion-sticker-badge sticker-purple">
                                                 {{ $user->internProfilesForMentor->count() }} Interns
                                             </span>
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
-                                                <button type="button" @click="openEditUserModal({{ json_encode($user) }})" class="btn btn-sm btn-primary text-white">Edit</button>
+                                                <button type="button" @click="openEditUserModal({{ json_encode($user) }})" class="btn-notion-utility btn-xs">Edit</button>
                                                 <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus mentor ini?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger text-white">Delete</button>
+                                                    <button type="submit" class="btn-notion-danger btn-xs">Hapus</button>
                                                 </form>
                                             </div>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="text-center py-4">Belum ada data mentor.</td>
+                                        <td colspan="4" class="text-center py-4 text-muted small">Belum ada data mentor.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -262,11 +262,11 @@
             </div>
 
             <!-- Admins Table Panel -->
-            <div x-show="activeTab === 'admins'" class="card shadow-sm border-0 mb-4" style="display: none;">
+            <div x-show="activeTab === 'admins'" class="card notion-card mb-4" style="display: none;">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="card-title text-dark mb-0">Administrator</h4>
-                        <button @click="openCreateUser = true; editUserData.role = 'admin'" class="btn btn-primary btn-sm text-white">
+                        <h4 class="card-title text-dark mb-0 fw-bold notion-headline">Administrator</h4>
+                        <button @click="openCreateUser = true; editUserData.role = 'admin'" class="btn-notion-primary btn-sm">
                             Tambah Admin
                         </button>
                     </div>
@@ -290,11 +290,11 @@
                                         <td>
                                             @if($user->id !== auth()->id())
                                                 <div class="d-flex align-items-center gap-2">
-                                                    <button type="button" @click="openEditUserModal({{ json_encode($user) }})" class="btn btn-sm btn-primary text-white">Edit</button>
+                                                    <button type="button" @click="openEditUserModal({{ json_encode($user) }})" class="btn-notion-utility btn-xs">Edit</button>
                                                     <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus admin ini?')">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger text-white">Delete</button>
+                                                        <button type="submit" class="btn-notion-danger btn-xs">Hapus</button>
                                                     </form>
                                                 </div>
                                             @else
@@ -304,7 +304,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="3" class="text-center py-4">Belum ada data admin.</td>
+                                        <td colspan="3" class="text-center py-4 text-muted small">Belum ada data admin.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -508,4 +508,52 @@
 
         </div>
     </div>
+
+    <!-- MODAL: Lihat Dokumen -->
+    <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold text-dark" id="documentModalLabel">Pratinjau Dokumen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="documentModalBody" class="text-center"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @push('scripts')
+    <script>
+    $(document).ready(function() {
+        $(document).on('click', '.btn-view-doc', function(e) {
+            e.preventDefault();
+            var fileUrl = $(this).attr('data-file-url');
+            
+            if (!fileUrl) return;
+
+            var isPdf = fileUrl.toLowerCase().endsWith('.pdf');
+            var content = '';
+
+            if (isPdf) {
+                content = '<iframe src="' + fileUrl + '" style="width:100%; height:70vh;" frameborder="0"></iframe>';
+            } else {
+                content = '<img src="' + fileUrl + '" class="img-fluid rounded" alt="Document">';
+            }
+
+            $('#documentModalBody').html(content);
+            $('#documentModal').modal('show');
+        });
+
+        // Clear modal body on close to prevent flashing old content
+        $('#documentModal').on('hidden.bs.modal', function () {
+            $('#documentModalBody').html('');
+        });
+    });
+    </script>
+    @endpush
 </x-app-layout>

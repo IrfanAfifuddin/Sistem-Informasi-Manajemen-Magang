@@ -169,9 +169,9 @@
                                     <span class="notion-sticker-badge sticker-green mb-2 d-inline-block">
                                         <i class="mdi mdi-check-circle-outline me-1"></i>Sudah Diunggah
                                     </span>
-                                    <a href="{{ asset('storage/' . $profile->application_letter_path) }}" target="_blank" class="w-100 btn btn-primary text-white d-flex align-items-center justify-content-center gap-2" style="font-size: 13px; font-weight: 600; padding: 10px 15px; border-radius: 6px;">
+                                    <button type="button" data-file-url="{{ asset('storage/' . $profile->application_letter_path) }}" class="w-100 btn-notion-primary text-white d-flex align-items-center justify-content-center gap-2 btn-view-task-doc" style="font-size: 13px; font-weight: 600; padding: 10px 15px; border-radius: 9999px; cursor: pointer;">
                                         <i class="mdi mdi-file-document-outline"></i> Lihat Surat
-                                    </a>
+                                    </button>
                                 @else
                                     <span class="notion-sticker-badge sticker-orange mb-3 d-inline-block">
                                         <i class="mdi mdi-alert-circle-outline me-1"></i>Belum Diunggah
@@ -183,7 +183,7 @@
                                             <label for="letter" class="form-label text-muted small mb-1" style="color: var(--colors-ink-muted) !important;">Upload Surat Permohonan (PDF/JPG/PNG, Max 2MB):</label>
                                             <input class="form-control form-control-sm" type="file" id="letter" name="letter" accept=".pdf,.jpg,.png" required style="border-radius: 6px;">
                                         </div>
-                                        <button type="submit" class="w-100 btn btn-primary text-white" style="font-size: 13px; font-weight: 600; padding: 10px 15px; border-radius: 6px;">
+                                        <button type="submit" class="w-100 btn-notion-primary text-white d-flex align-items-center justify-content-center gap-2" style="font-size: 13px; font-weight: 600; padding: 10px 15px; border-radius: 9999px; cursor: pointer;">
                                             <i class="mdi mdi-upload"></i> Unggah Surat
                                         </button>
                                     </form>
@@ -267,9 +267,9 @@
                                             
                                             <div class="d-flex flex-wrap gap-3 align-items-center">
                                                 @if($task->attachment_path)
-                                                    <a href="{{ asset('storage/' . $task->attachment_path) }}" target="_blank" class="notion-sticker-badge sticker-sky text-decoration-none small">
+                                                    <button type="button" data-file-url="{{ asset('storage/' . $task->attachment_path) }}" class="notion-sticker-badge sticker-sky text-decoration-none small btn-view-task-doc" style="cursor: pointer;">
                                                         <i class="mdi mdi-download"></i> Lampiran Instruksi
-                                                    </a>
+                                                    </button>
                                                 @endif
                                                 <span class="small text-muted" style="color: var(--colors-ink-muted) !important;">
                                                     <i class="mdi mdi-calendar-clock me-1"></i>Deadline: {{ \Carbon\Carbon::parse($task->due_date)->format('d M Y H:i') }}
@@ -348,5 +348,54 @@
         </div>
 
     </div>
+    </div>
 </div>
+
+<!-- MODAL: Lihat Lampiran Tugas -->
+<div class="modal fade" id="taskDocumentModal" tabindex="-1" role="dialog" aria-labelledby="taskDocumentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold text-dark" id="taskDocumentModalLabel">Pratinjau Lampiran Tugas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="taskDocumentModalBody" class="text-center"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    $(document).on('click', '.btn-view-task-doc', function(e) {
+        e.preventDefault();
+        var fileUrl = $(this).attr('data-file-url');
+        
+        if (!fileUrl) return;
+
+        var isPdf = fileUrl.toLowerCase().endsWith('.pdf');
+        var content = '';
+
+        if (isPdf) {
+            content = '<iframe src="' + fileUrl + '" style="width:100%; height:70vh;" frameborder="0"></iframe>';
+        } else {
+            content = '<img src="' + fileUrl + '" class="img-fluid rounded" alt="Lampiran Tugas">';
+        }
+
+        $('#taskDocumentModalBody').html(content);
+        $('#taskDocumentModal').modal('show');
+    });
+
+    // Clear modal body on close to prevent flashing old content
+    $('#taskDocumentModal').on('hidden.bs.modal', function () {
+        $('#taskDocumentModalBody').html('');
+    });
+});
+</script>
+@endpush
 @endsection
